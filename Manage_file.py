@@ -118,46 +118,71 @@ def avg_and_central_moments(counts):
 
 
 
-def background_files(background_time_tags, duration):
+def background_rate(background_time_tags, duration=None):
+    """
+    Calcola il rate di background in click/s.
+    """
+    times = np.sort(np.asarray(background_time_tags, dtype=float))
+
+    if duration is None:
+        if times.size < 2:
+            raise ValueError("Servono almeno due time tag.")
+        duration = times[-1] - times[0]
+
     if duration <= 0:
-        raise ValueError("the duration is not positive.")
+        raise ValueError("La durata deve essere positiva.")
 
-    N = len(background_time_tags)
-    R = N / duration
-
-    return R
-
-
+    return len(times) / duration
 def background_mean(rate, delta_interval=1e-5):
     return rate * delta_interval
 
+def subtract_background_mean(counts, background_mean):
+    """
+    Sottrae il numero medio di click di background da ogni bin.
+    """
+    counts = np.asarray(counts, dtype=float)
+    return counts - background_mean
 
-def fano_factor(counts):
 
+def fano_factor(counts, background_mean=None):
+    """
+    Calcola il Fano factor.
+    Se background_mean è fornito, sottrae anche il suo contributo
+    alla media e alla varianza.
+    """
     counts = np.asarray(counts, dtype=float)
 
     if counts.size == 0:
         raise ValueError("L'array dei conteggi è vuoto.")
 
     mean = np.mean(counts)
-
-    if mean == 0:
-        return np.nan
-
     variance = np.var(counts)
+
+    if background_mean is not None:
+        mean = mean - background_mean
+        variance = variance - background_mean
+
+    if mean <= 0:
+        return np.nan
 
     return variance / mean
 
 
 
 
-def fano_vs_bin_duration(time_tags_seconds, bin_durations, duration=None):
+def fano_vs_bin_duration(
+    time_tags_seconds,
+    bin_durations,
+    background_mean=None
+):
     durations = np.asarray(bin_durations, dtype=float)
     fano_values = []
 
     for dt in durations:
         counts = count_interval(time_tags_seconds, dt)
-        fano_values.append(fano_factor(counts))
+        fano_values.append(
+            fano_factor(counts, background_mean=background_mean)
+        )
 
     return durations, np.asarray(fano_values)
 
@@ -225,42 +250,19 @@ def skewness_and_kurtosis(counts):
     kurtosis = mu4 / mu2 ** 2
     return skewness, kurtosis
 
-def exponential(x, A, tau):
-    return A * np.exp(-x / tau)
 
-def fit_interarrival_distribution(time_tags_seconds):
-
-    intervals = interarrival_times(
-        time_tags_seconds
-    )
-
-    intervals = intervals[intervals > 200e-9]
+def exponential_tau(time_tags_seconds, threshold=200e-9):
+    """
+    Stima tau della distribuzione esponenziale degli intervalli
+    tra click, escludendo gli afterpulse.
+    """
+    intervals = interarrival_times(time_tags_seconds)
+    intervals = intervals[intervals > threshold]
 
     if len(intervals) < 10:
-        raise ValueError(
-            "Not enough intervals for exponential fit."
-        )
+        raise ValueError("Not enough intervals for exponential fit.")
 
-    hist, edges = np.histogram(
-        intervals,
-        bins=100
-    )
-
-    centers = (
-        edges[:-1] + edges[1:]
-    ) / 2
-
-    popt, _ = curve_fit(
-        exponential,
-        centers,
-        hist,
-        p0=[
-            np.max(hist),
-            np.mean(intervals)
-        ]
-    )
-
-    return popt
+    return np.mean(intervals)
 
 def generate_random_bits(time_tags_seconds,
                          threshold=200e-9):
@@ -411,3 +413,40 @@ def monte_carlo_pi(byte_stream):
             hits += 1
 
     return 4 * hits / n_points
+
+
+def count_autocorrelation(counts, max_lag=20):
+
+    counts = np.asarray(
+        counts,
+        dtype=float
+    )
+
+    if len(counts) < 2:
+        return np.array([])
+
+    mean = np.mean(counts)
+    var = np.var(counts)
+
+    if var == 0:
+        return np.zeros(max_lag)
+
+    ac = []
+
+    for lag in range(1, max_lag + 1):
+
+        c = np.mean(
+            (
+                counts[:-lag] - mean
+            ) *
+            (
+                counts[lag:] - mean
+            )
+        ) / var
+
+        ac.append(c)
+
+    return np.asarray(ac)
+
+
+

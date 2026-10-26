@@ -1,4 +1,3 @@
-
 from pathlib import Path
 from contextlib import redirect_stdout, redirect_stderr
 import traceback
@@ -57,7 +56,7 @@ BACKGROUND_FILES = {
 # ANALISI DELLE MISURE
 # ==================================================
 
-def analyze_measurement(voltage, filename):
+def analyze_measurement(voltage, filename, background_mean):
     print("\n" + "=" * 60)
     print(f"ANALISI MISURA: {voltage}")
     print(f"File: {filename}")
@@ -93,6 +92,16 @@ def analyze_measurement(voltage, filename):
     print(f"Numero di bin conteggiati: {len(counts)}")
 
     # ----------------------------------------------
+    # Autocorrelazione
+    # ----------------------------------------------
+
+    pf.plot_count_autocorrelation(
+        counts,
+        max_lag=20,
+        filename=f"autocorrelazione_{voltage}.png"
+    )
+
+    # ----------------------------------------------
     # Media e momenti centrali
     # ----------------------------------------------
 
@@ -106,11 +115,15 @@ def analyze_measurement(voltage, filename):
     print(f"Momento centrale ordine 4: {mu4:.8g}")
 
     # ----------------------------------------------
-    # Fattore di Fano
+    # Fattore di Fano prima del filtro
     # ----------------------------------------------
 
-    fano = mf.fano_factor(counts)
-    print(f"Fattore di Fano: {fano:.8g}")
+    fano = mf.fano_factor(
+        counts,
+        background_mean=background_mean
+    )
+
+    print(f"Fattore di Fano corretto per background: {fano:.8g}")
 
     # ----------------------------------------------
     # Grafico della distribuzione dei click
@@ -121,33 +134,43 @@ def analyze_measurement(voltage, filename):
         filename=f"distribuzione_{voltage}.png"
     )
 
+    pf.plot_distributions_different_bins(
+        times,
+        [1e-6, 1e-5, 5e-5],
+        filename=f"distribuzioni_bin_{voltage}.png"
+    )
     # ----------------------------------------------
-    # Grafico del fattore di Fano
+    # Fano factor prima del filtro
     # ----------------------------------------------
 
     pf.plot_fano_vs_bin_duration(
         times,
         BIN_DURATIONS,
+        background_mean=background_mean,
         filename=f"fano_{voltage}.png"
     )
 
     # ----------------------------------------------
-    # Istogramma degli intervalli tra click
+    # Istogramma degli intervalli prima del filtro
     # ----------------------------------------------
 
     pf.plot_interarrival_histogram(
         times,
+        threshold=AFTERPULSE_THRESHOLD,
         filename=f"intervalli_{voltage}.png"
     )
 
-    A, tau = mf.fit_interarrival_distribution(
-        times
+    # ----------------------------------------------
+    # Tau della distribuzione esponenziale
+    # ----------------------------------------------
+
+    tau = mf.exponential_tau(
+        times,
+        threshold=AFTERPULSE_THRESHOLD
     )
 
-    print(
-        f"Exponential decay time tau = "
-        f"{tau:.6e} s"
-    )
+    print(f"Exponential decay time tau = {tau:.6e} s")
+
     # ----------------------------------------------
     # Filtro degli afterpulse
     # ----------------------------------------------
@@ -166,60 +189,62 @@ def analyze_measurement(voltage, filename):
         percentage_removed = 100 * removed_clicks / len(times)
         print(f"Percentuale di click rimossi: {percentage_removed:.4f}%")
 
+    # ----------------------------------------------
     # Conteggi dopo il filtro
+    # ----------------------------------------------
+
     counts_after = mf.count_interval(
         filtered_times,
         delta_interval=BIN_DURATION
     )
 
+    # ----------------------------------------------
+    # Fano factor dopo il filtro
+    # ----------------------------------------------
+
     pf.plot_fano_vs_bin_duration(
         filtered_times,
         BIN_DURATIONS,
+        background_mean=background_mean,
         filename=f"fano_filtered_{voltage}.png"
     )
 
+    # ----------------------------------------------
+    # Istogramma degli intervalli dopo il filtro
+    # ----------------------------------------------
+
     pf.plot_interarrival_histogram(
         filtered_times,
+        threshold=AFTERPULSE_THRESHOLD,
         filename=f"intervalli_filtered_{voltage}.png"
     )
-    mean_after, \
-        mu2_after, \
-        mu3_after, \
-        mu4_after = \
+
+    # ----------------------------------------------
+    # Media e momenti dopo il filtro
+    # ----------------------------------------------
+
+    mean_after, mu2_after, mu3_after, mu4_after = \
         mf.avg_and_central_moments(
             counts_after
         )
 
     fano_after = mf.fano_factor(
-        counts_after
+        counts_after,
+        background_mean=background_mean
     )
 
     print("\nAFTERPULSE FILTERED DATA")
 
-    print(
-        f"Mean = {mean_after:.8g}"
-    )
+    print(f"Mean = {mean_after:.8g}")
+    print(f"2nd central moment = {mu2_after:.8g}")
+    print(f"3rd central moment = {mu3_after:.8g}")
+    print(f"4th central moment = {mu4_after:.8g}")
+    print(f"Fano factor = {fano_after:.8g}")
 
-    print(
-        f"2nd central moment = "
-        f"{mu2_after:.8g}"
-    )
+    # ----------------------------------------------
+    # Confronto prima e dopo il filtro
+    # ----------------------------------------------
 
-    print(
-        f"3rd central moment = "
-        f"{mu3_after:.8g}"
-    )
-
-    print(
-        f"4th central moment = "
-        f"{mu4_after:.8g}"
-    )
-
-    print(
-        f"Fano factor = "
-        f"{fano_after:.8g}"
-    )
-    # Confronto delle distribuzioni prima e dopo il filtro
     pf.plot_before_after_filter(
         counts,
         counts_after,
@@ -228,6 +253,10 @@ def analyze_measurement(voltage, filename):
 
     print(f"Grafici salvati nella cartella: {IMG_FOLDER}")
 
+    # ----------------------------------------------
+    # Momenti teorici
+    # ----------------------------------------------
+
     poisson_mu2, poisson_mu3, poisson_mu4 = \
         mf.poisson_moments(mean)
 
@@ -235,6 +264,7 @@ def analyze_measurement(voltage, filename):
         mf.bose_einstein_moments(mean)
 
     print("\nTheoretical moments:")
+
     print("Poisson:")
     print(f"mu2 = {poisson_mu2:.8g}")
     print(f"mu3 = {poisson_mu3:.8g}")
@@ -251,60 +281,39 @@ def analyze_measurement(voltage, filename):
     print(f"Skewness = {skewness:.8g}")
     print(f"Kurtosis = {kurtosis:.8g}")
 
+    # ----------------------------------------------
+    # Random number generator
+    # ----------------------------------------------
+
     print("\nRANDOM NUMBER GENERATOR")
+
     bits = mf.generate_random_bits(
         filtered_times,
         threshold=AFTERPULSE_THRESHOLD
     )
 
-    print(
-        f"Generated bits: "
-        f"{len(bits)}"
-    )
-    bytes_stream = mf.bits_to_bytes(
-        bits
-    )
+    print(f"Generated bits: {len(bits)}")
 
-    print(
-        f"Generated bytes: "
-        f"{len(bytes_stream)}"
-    )
-    chi2, p_value = \
-        mf.chi_square_test(
-            bytes_stream
-        )
+    bytes_stream = mf.bits_to_bytes(bits)
 
-    print(
-        f"Chi-square = "
-        f"{chi2:.4f}"
-    )
+    print(f"Generated bytes: {len(bytes_stream)}")
 
-    print(
-        f"p-value = "
-        f"{p_value:.4f}"
-    )
-    mean_byte = mf.byte_mean(
-        bytes_stream
-    )
+    chi2, p_value = mf.chi_square_test(bytes_stream)
 
-    print(
-        f"Byte mean = "
-        f"{mean_byte:.4f}"
-    )
-    serial_corr = \
-        mf.serial_correlation(
-            bytes_stream
-        )
+    print(f"Chi-square = {chi2:.4f}")
+    print(f"p-value = {p_value:.4f}")
 
-    print(
-        f"Serial correlation = "
-        f"{serial_corr:.6f}"
-    )
+    mean_byte = mf.byte_mean(bytes_stream)
+
+    print(f"Byte mean = {mean_byte:.4f}")
+
+    serial_corr = mf.serial_correlation(bytes_stream)
+
+    print(f"Serial correlation = {serial_corr:.6f}")
+
     pf.plot_byte_histogram(
         bytes_stream,
-        filename=(
-            f"random_bytes_{voltage}.png"
-        )
+        filename=f"random_bytes_{voltage}.png"
     )
 
     zeros, ones = mf.bit_balance(bits)
@@ -312,19 +321,13 @@ def analyze_measurement(voltage, filename):
     print(f"Zeros = {zeros}")
     print(f"Ones = {ones}")
 
-    print(
-        f"Fraction of ones = "
-        f"{ones / len(bits):.4f}"
-    )
+    if len(bits) > 0:
+        print(f"Fraction of ones = {ones / len(bits):.4f}")
 
-    pi_estimate = mf.monte_carlo_pi(
-        bytes_stream
-    )
+    pi_estimate = mf.monte_carlo_pi(bytes_stream)
 
-    print(
-        f"Monte Carlo Pi = "
-        f"{pi_estimate:.6f}"
-    )
+    print(f"Monte Carlo Pi = {pi_estimate:.6f}")
+
     pf.plot_byte_cloud(
         bytes_stream,
         filename=f"byte_cloud_{voltage}.png"
@@ -335,6 +338,8 @@ def analyze_measurement(voltage, filename):
         ones,
         filename=f"bit_balance_{voltage}.png"
     )
+
+
 # ==================================================
 # ANALISI DEL BACKGROUND
 # ==================================================
@@ -360,22 +365,18 @@ def analyze_background(background_name, filename):
         threshold=AFTERPULSE_THRESHOLD
     )
 
-    removed = (
-            len(background_times)
-            - len(filtered_background)
-    )
+    removed = len(background_times) - len(filtered_background)
 
-    print(
-        f"Removed background clicks: {removed}"
-    )
+    print(f"Removed background clicks: {removed}")
+
     if len(filtered_background) < 2:
         print("Dati insufficienti per stimare la durata.")
         return
 
     # Stima della durata tra primo e ultimo time tag
     background_duration = (
-            filtered_background[-1]
-            - filtered_background[0]
+        filtered_background[-1]
+        - filtered_background[0]
     )
 
     if background_duration <= 0:
@@ -383,9 +384,9 @@ def analyze_background(background_name, filename):
         return
 
     # Rate di background in click/s
-    background_rate = mf.background_files(
+    background_rate = mf.background_rate(
         filtered_background,
-        background_duration
+        duration=background_duration
     )
 
     # Numero medio atteso di click di background per bin
@@ -397,10 +398,7 @@ def analyze_background(background_name, filename):
     print(f"Numero di click: {len(background_times)}")
     print(f"Durata stimata: {background_duration:.8g} s")
     print(f"Rate di background: {background_rate:.8g} click/s")
-    print(
-        "Click medi di background per bin: "
-        f"{mean_background:.8g}"
-    )
+    print(f"Click medi di background per bin: {mean_background:.8g}")
 
 
 # ==================================================
@@ -412,15 +410,51 @@ def main():
     print(f"Cartella dati: {DATA_FOLDER}")
     print(f"Cartella immagini: {IMG_FOLDER}")
     print(f"Durata bin principale: {BIN_DURATION:.3e} s")
+    print(f"Soglia afterpulse: {AFTERPULSE_THRESHOLD * 1e9:.0f} ns")
+
+    # Calcolo del background medio per bin
+    background_rates = {}
+    background_means = {}
+
+    for background_name, background_filename in BACKGROUND_FILES.items():
+        background_path = DATA_FOLDER / background_filename
+        background_tags = mf.reader(background_path)
+        background_times = mf.converter(background_tags)
+
+        background_times = mf.remove_afterpulses(
+            background_times,
+            threshold=AFTERPULSE_THRESHOLD
+        )
+
+        rate = mf.background_rate(background_times)
+        mean_bg = mf.background_mean(
+            rate,
+            delta_interval=BIN_DURATION
+        )
+
+        background_rates[background_name] = rate
+        background_means[background_name] = mean_bg
+
+        print(f"\nBackground: {background_name}")
+        print(f"Rate = {rate:.8g} click/s")
+        print(f"Mean background per bin = {mean_bg:.8g} click")
+
+    # Usa la media dei due background disponibili
+    BACKGROUND_MEAN = np.mean(list(background_means.values()))
+
     print(
-        f"Soglia afterpulse: "
-        f"{AFTERPULSE_THRESHOLD * 1e9:.0f} ns"
+        f"\nMean background used for correction = "
+        f"{BACKGROUND_MEAN:.8g}"
     )
 
     # Analisi delle quattro tensioni
     for voltage, filename in MEASUREMENT_FILES.items():
         try:
-            analyze_measurement(voltage, filename)
+            analyze_measurement(
+                voltage,
+                filename,
+                background_mean=BACKGROUND_MEAN
+            )
         except Exception:
             print(f"\nERRORE durante l'analisi di {voltage}:")
             traceback.print_exc()
@@ -436,14 +470,10 @@ def main():
             )
             traceback.print_exc()
 
-
-
-
     print("\n" + "=" * 60)
     print("ANALISI COMPLETATA")
     print(f"Immagini salvate in: {IMG_FOLDER}")
     print("=" * 60)
-
 
 
 # ==================================================
@@ -462,3 +492,6 @@ if __name__ == "__main__":
     print("Esecuzione terminata.")
     print(f"Log salvato in: {LOG_PATH}")
     print(f"Grafici salvati in: {IMG_FOLDER}")
+
+
+

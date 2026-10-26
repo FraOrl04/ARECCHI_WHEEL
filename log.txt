@@ -4,6 +4,16 @@ Cartella immagini: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
 Durata bin principale: 1.000e-05 s
 Soglia afterpulse: 200 ns
 
+Background: laser_off
+Rate = 1150.5391 click/s
+Mean background per bin = 0.011505391 click
+
+Background: no_fiber
+Rate = 136.39988 click/s
+Mean background per bin = 0.0013639988 click
+
+Mean background used for correction = 0.0064346947
+
 ============================================================
 ANALISI MISURA: 0V
 File: TimeTags_0v_15.txt
@@ -11,15 +21,17 @@ File: TimeTags_0v_15.txt
 Numero totale di click: 890699
 Durata del bin: 1.000e-05 s
 Numero di bin conteggiati: 2171591
+Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/autocorrelazione_0V.png
 Media dei click per bin: 0.41015965
 Momento centrale ordine 2: 0.43062815
 Momento centrale ordine 3: 0.47374652
 Momento centrale ordine 4: 1.1227519
-Fattore di Fano: 1.0499037
+Fattore di Fano corretto per background: 1.0506991
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzione_0V.png
+Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzioni_bin_0V.png
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_0V.png
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_0V.png
-Exponential decay time tau = 2.490449e-05 s
+Exponential decay time tau = 2.517410e-05 s
 Click dopo il filtro: 862704
 Click rimossi dal filtro: 27995
 Percentuale di click rimossi: 3.1430%
@@ -31,7 +43,7 @@ Mean = 0.39726818
 2nd central moment = 0.39151532
 3rd central moment = 0.38039153
 4th central moment = 0.81853771
-Fano factor = 0.98551897
+Fano factor = 0.98528055
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/filtro_afterpulse_0V.png
 Grafici salvati nella cartella: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
 
@@ -71,15 +83,17 @@ File: TimeTags_1v_15.txt
 Numero totale di click: 884312
 Durata del bin: 1.000e-05 s
 Numero di bin conteggiati: 1039769
+Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/autocorrelazione_1V.png
 Media dei click per bin: 0.85048891
 Momento centrale ordine 2: 1.5701742
 Momento centrale ordine 3: 5.1240244
 Momento centrale ordine 4: 35.557546
-Fattore di Fano: 1.8462019
+Fattore di Fano corretto per background: 1.8526529
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzione_1V.png
+Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzioni_bin_1V.png
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_1V.png
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_1V.png
-Exponential decay time tau = 6.761861e-06 s
+Exponential decay time tau = 1.238395e-05 s
 Click dopo il filtro: 840434
 Click rimossi dal filtro: 43878
 Percentuale di click rimossi: 4.9618%
@@ -91,7 +105,7 @@ Mean = 0.80828915
 2nd central moment = 1.3260391
 3rd central moment = 3.5191155
 4th central moment = 20.225934
-Fano factor = 1.6405504
+Fano factor = 1.6456906
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/filtro_afterpulse_1V.png
 Grafici salvati nella cartella: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
 
@@ -131,15 +145,17 @@ File: TimeTags_3v_15.txt
 Numero totale di click: 1044612
 Durata del bin: 1.000e-05 s
 Numero di bin conteggiati: 1242972
+Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/autocorrelazione_3V.png
 Media dei click per bin: 0.84041475
 Momento centrale ordine 2: 1.7055241
 Momento centrale ordine 3: 6.6692146
 Momento centrale ordine 4: 52.426899
-Fattore di Fano: 2.0293838
+Fattore di Fano corretto per background: 2.0373262
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzione_3V.png
+Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzioni_bin_3V.png
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_3V.png
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_3V.png
-Exponential decay time tau = 5.869799e-06 s
+Exponential decay time tau = 1.258132e-05 s
 Click dopo il filtro: 989259
 Click rimossi dal filtro: 55353
 Percentuale di click rimossi: 5.2989%
@@ -151,7 +167,7 @@ Mean = 0.79588197
 2nd central moment = 1.4108923
 3rd central moment = 4.3817068
 4th central moment = 27.908763
-Fano factor = 1.7727406
+Fano factor = 1.7790391
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/filtro_afterpulse_3V.png
 Grafici salvati nella cartella: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
 
@@ -191,15 +207,17 @@ File: TimeTags_5v_15.txt
 Numero totale di click: 714194
 Durata del bin: 1.000e-05 s
 Numero di bin conteggiati: 814514
+Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/autocorrelazione_5V.png
 Media dei click per bin: 0.87683453
 Momento centrale ordine 2: 1.8675014
 Momento centrale ordine 3: 8.4796223
 Momento centrale ordine 4: 80.489299
-Fattore di Fano: 2.1298219
+Fattore di Fano corretto per background: 2.1381745
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzione_5V.png
+Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzioni_bin_5V.png
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_5V.png
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_5V.png
-Exponential decay time tau = 5.159676e-06 s
+Exponential decay time tau = 1.211185e-05 s
 Click dopo il filtro: 673784
 Click rimossi dal filtro: 40410
 Percentuale di click rimossi: 5.6581%
@@ -211,7 +229,7 @@ Mean = 0.82722212
 2nd central moment = 1.5039532
 3rd central moment = 5.091904
 4th central moment = 36.393131
-Fano factor = 1.8180767
+Fano factor = 1.8244901
 Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/filtro_afterpulse_5V.png
 Grafici salvati nella cartella: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
 

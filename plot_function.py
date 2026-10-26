@@ -66,6 +66,54 @@ def plot_distributions(counts, filename="distribuzione.png"):
     save_plot(filename)
 
 
+
+
+# ==================================================
+# CONFRONTO p(n) PER DIVERSE BIN DURATION
+# ==================================================
+def plot_distributions_different_bins(
+    time_tags_seconds,
+    bin_durations,
+    filename="different_bins.png"
+):
+    """
+    Confronta la distribuzione p(n) ottenuta
+    usando diverse durate del bin.
+    """
+
+    plt.figure(figsize=(8, 5))
+
+    for dt in bin_durations:
+
+        counts = mf.count_interval(
+            time_tags_seconds,
+            delta_interval=dt
+        )
+
+        p_n = mf.number_of_clicks(counts)
+        n = np.arange(len(p_n))
+
+        plt.plot(
+            n,
+            p_n,
+            marker="o",
+            linestyle="-",
+            label=f"{dt*1e6:.0f} us"
+        )
+
+    plt.xlabel("Number of clicks n")
+    plt.ylabel("Probability p(n)")
+    plt.title("Photon Number Distribution for Different Bin Durations")
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+
+    save_plot(filename)
+
+
+
+
+
+
 # ==================================================
 # FATTORE DI FANO
 # ==================================================
@@ -73,29 +121,38 @@ def plot_distributions(counts, filename="distribuzione.png"):
 def plot_fano_vs_bin_duration(
     time_tags_seconds,
     bin_durations,
+    background_mean=None,
     filename="fano.png"
 ):
     """
-    Mostra il fattore di Fano in funzione della durata del bin.
+    Fano factor in funzione della durata del bin.
     """
     durations, fano_values = mf.fano_vs_bin_duration(
         time_tags_seconds,
-        bin_durations
+        bin_durations,
+        background_mean=background_mean
     )
 
     plt.figure(figsize=(8, 5))
     plt.plot(durations, fano_values, "o-")
 
+    plt.axhline(
+        1,
+        color="red",
+        linestyle="--",
+        label="Poisson, F = 1"
+    )
+
     plt.xscale("log")
     plt.xlabel("Bin duration (s)")
     plt.ylabel("Fano factor F")
     plt.title("Fano Factor vs Bin Duration")
+    plt.legend()
     plt.grid(True, which="both", alpha=0.3)
 
     save_plot(filename)
 
     return durations, fano_values
-
 
 # ==================================================
 # ISTOGRAMMA DEGLI INTERVALLI TRA CLICK
@@ -104,68 +161,63 @@ def plot_fano_vs_bin_duration(
 def plot_interarrival_histogram(
     time_tags_seconds,
     bins=100,
+    threshold=200e-9,
     filename="intervalli.png"
 ):
     """
-    Mostra l'istogramma degli intervalli tra click consecutivi.
-    Evidenzia la soglia di 200 ns per gli afterpulse.
+    Istogramma degli intervalli tra click consecutivi,
+    con asse y logaritmico e fit esponenziale.
     """
     intervals = mf.interarrival_times(time_tags_seconds)
-
-    if intervals.size == 0:
-        raise ValueError(
-            "Non ci sono intervalli temporali da mostrare."
-        )
-
     intervals = intervals[intervals > 0]
 
     if intervals.size == 0:
-        raise ValueError(
-            "Non ci sono intervalli temporali positivi."
-        )
+        raise ValueError("Non ci sono intervalli temporali da mostrare.")
 
     plt.figure(figsize=(8, 5))
-    hist, edges, _ = plt.hist(
+
+    plt.hist(
         intervals,
         bins=bins,
+        density=True,
         log=True,
         alpha=0.7,
         label="Data"
     )
 
-    A, tau = mf.fit_interarrival_distribution(
-        time_tags_seconds
+    tau = mf.exponential_tau(
+        time_tags_seconds,
+        threshold=threshold
     )
 
-    x = np.linspace(
-        intervals.min(),
-        intervals.max(),
-        1000
-    )
+    x = np.linspace(threshold, intervals.max(), 1000)
+    y = (1 / tau) * np.exp(-x / tau)
 
     plt.plot(
         x,
-        mf.exponential(x, A, tau),
+        y,
         "r-",
         linewidth=2,
-        label=f"Fit tau={tau:.2e} s"
+        label=rf"Exponential fit, $\tau$ = {tau:.2e} s"
     )
+
     plt.axvline(
-        200e-9,
-        color="red",
+        threshold,
+        color="black",
         linestyle="--",
-        label="Afterpulse threshold: 200 ns"
+        label="Afterpulse threshold"
     )
 
+    plt.xscale("log")
     plt.xlabel("Time interval between consecutive clicks (s)")
-    plt.ylabel("Number of intervals (log scale)")
+    plt.ylabel("Probability density")
     plt.title("Interarrival Time Distribution")
-
     plt.legend()
-    plt.grid(True, alpha=0.3)
+    plt.grid(True, which="both", alpha=0.3)
 
     save_plot(filename)
 
+    return tau
 
 # ==================================================
 # CONFRONTO PRIMA E DOPO IL FILTRO AFTERPULSE
@@ -318,3 +370,21 @@ def plot_bit_balance(
     plt.grid(True)
 
     save_plot(filename)
+
+
+
+def plot_count_autocorrelation(counts, max_lag=20, filename="autocorrelation.png"):
+    ac = mf.count_autocorrelation(counts, max_lag=max_lag)
+    lags = np.arange(1, max_lag + 1)
+
+    plt.figure(figsize=(8, 5))
+    plt.plot(lags, ac, "o-")
+    plt.axhline(0, color="black", linestyle="--")
+
+    plt.xlabel("Lag (bin)")
+    plt.ylabel("Normalized autocorrelation")
+    plt.title("Count Autocorrelation")
+    plt.grid(True, alpha=0.3)
+
+    save_plot(filename)
+
