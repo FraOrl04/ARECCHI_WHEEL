@@ -1,51 +1,51 @@
-ANALISI STATISTICA DEI PHOTON TIME TAGS
-Cartella dati: /home/francesco/PycharmProjects/ARECCHI WHEEL/data_files
-Cartella immagini: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
-Durata bin principale: 1.000e-05 s
-Soglia afterpulse: 200 ns
+STATISTICAL ANALYSIS OF PHOTON TIME TAGS
+Data folder: /home/francesco/PycharmProjects/ARECCHI WHEEL/data_files
+Images folder: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
+Main bin duration: 1.000e-05 s
+Afterpulse threshold: 200 ns
 
 Background: laser_off
-Rate = 1150.5391 click/s
-Mean background per bin = 0.011505391 click
+Rate = 1150.5391 clicks/s
+Mean background per bin = 0.011505391 clicks
 
 Background: no_fiber
-Rate = 136.39988 click/s
-Mean background per bin = 0.0013639988 click
+Rate = 136.39988 clicks/s
+Mean background per bin = 0.0013639988 clicks
 
 Mean background used for correction = 0.0064346947
 
 ============================================================
-ANALISI MISURA: 0V
+MEASUREMENT ANALYSIS: 0V
 File: TimeTags_0v_15.txt
 ============================================================
-Numero totale di click: 890699
-Durata del bin: 1.000e-05 s
-Numero di bin conteggiati: 2171591
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/autocorrelazione_0V.png
-Media dei click per bin: 0.41015965
-Momento centrale ordine 2: 0.43062815
-Momento centrale ordine 3: 0.47374652
-Momento centrale ordine 4: 1.1227519
-Fattore di Fano corretto per background: 1.0506991
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzione_0V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzioni_bin_0V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_0V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_0V.png
+Total number of clicks: 890699
+Bin duration: 1.000e-05 s
+Number of counted bins: 2171591
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/autocorrelazione_0V.png
+Mean clicks per bin: 0.41015965
+Second-order central moment: 0.43062815
+Third-order central moment: 0.47374652
+Fourth-order central moment: 1.1227519
+Background-corrected Fano factor: 1.0506991
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzione_0V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzioni_bin_0V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_0V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_0V.png
 Exponential decay time tau = 2.517410e-05 s
-Click dopo il filtro: 862704
-Click rimossi dal filtro: 27995
-Percentuale di click rimossi: 3.1430%
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_filtered_0V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_filtered_0V.png
+Clicks after filtering: 862704
+Clicks removed by filtering: 27995
+Percentage of clicks removed: 3.1430%
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_filtered_0V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_filtered_0V.png
 
 AFTERPULSE FILTERED DATA
 Mean = 0.39726818
-2nd central moment = 0.39151532
-3rd central moment = 0.38039153
-4th central moment = 0.81853771
+Second central moment = 0.39151532
+Third central moment = 0.38039153
+Fourth central moment = 0.81853771
 Fano factor = 0.98528055
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/filtro_afterpulse_0V.png
-Grafici salvati nella cartella: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/filtro_afterpulse_0V.png
+Plots saved in folder: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
 
 Theoretical moments:
 Poisson:
@@ -67,47 +67,47 @@ Chi-square = 232.6044
 p-value = 0.8395
 Byte mean = 127.8117
 Serial correlation = -0.003588
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/random_bytes_0V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/random_bytes_0V.png
 Zeros = 215762
 Ones = 215589
 Fraction of ones = 0.4998
 Monte Carlo Pi = 3.150234
 Bytes available for cloud: 53918
 Saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/byte_cloud_0V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/bit_balance_0V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/bit_balance_0V.png
 
 ============================================================
-ANALISI MISURA: 1V
+MEASUREMENT ANALYSIS: 1V
 File: TimeTags_1v_15.txt
 ============================================================
-Numero totale di click: 884312
-Durata del bin: 1.000e-05 s
-Numero di bin conteggiati: 1039769
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/autocorrelazione_1V.png
-Media dei click per bin: 0.85048891
-Momento centrale ordine 2: 1.5701742
-Momento centrale ordine 3: 5.1240244
-Momento centrale ordine 4: 35.557546
-Fattore di Fano corretto per background: 1.8526529
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzione_1V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzioni_bin_1V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_1V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_1V.png
+Total number of clicks: 884312
+Bin duration: 1.000e-05 s
+Number of counted bins: 1039769
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/autocorrelazione_1V.png
+Mean clicks per bin: 0.85048891
+Second-order central moment: 1.5701742
+Third-order central moment: 5.1240244
+Fourth-order central moment: 35.557546
+Background-corrected Fano factor: 1.8526529
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzione_1V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzioni_bin_1V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_1V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_1V.png
 Exponential decay time tau = 1.238395e-05 s
-Click dopo il filtro: 840434
-Click rimossi dal filtro: 43878
-Percentuale di click rimossi: 4.9618%
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_filtered_1V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_filtered_1V.png
+Clicks after filtering: 840434
+Clicks removed by filtering: 43878
+Percentage of clicks removed: 4.9618%
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_filtered_1V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_filtered_1V.png
 
 AFTERPULSE FILTERED DATA
 Mean = 0.80828915
-2nd central moment = 1.3260391
-3rd central moment = 3.5191155
-4th central moment = 20.225934
+Second central moment = 1.3260391
+Third central moment = 3.5191155
+Fourth central moment = 20.225934
 Fano factor = 1.6456906
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/filtro_afterpulse_1V.png
-Grafici salvati nella cartella: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/filtro_afterpulse_1V.png
+Plots saved in folder: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
 
 Theoretical moments:
 Poisson:
@@ -129,47 +129,47 @@ Chi-square = 270.9884
 p-value = 0.2348
 Byte mean = 127.7074
 Serial correlation = 0.001037
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/random_bytes_1V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/random_bytes_1V.png
 Zeros = 209558
 Ones = 210658
 Fraction of ones = 0.5013
 Monte Carlo Pi = 3.141421
 Bytes available for cloud: 52527
 Saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/byte_cloud_1V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/bit_balance_1V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/bit_balance_1V.png
 
 ============================================================
-ANALISI MISURA: 3V
+MEASUREMENT ANALYSIS: 3V
 File: TimeTags_3v_15.txt
 ============================================================
-Numero totale di click: 1044612
-Durata del bin: 1.000e-05 s
-Numero di bin conteggiati: 1242972
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/autocorrelazione_3V.png
-Media dei click per bin: 0.84041475
-Momento centrale ordine 2: 1.7055241
-Momento centrale ordine 3: 6.6692146
-Momento centrale ordine 4: 52.426899
-Fattore di Fano corretto per background: 2.0373262
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzione_3V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzioni_bin_3V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_3V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_3V.png
+Total number of clicks: 1044612
+Bin duration: 1.000e-05 s
+Number of counted bins: 1242972
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/autocorrelazione_3V.png
+Mean clicks per bin: 0.84041475
+Second-order central moment: 1.7055241
+Third-order central moment: 6.6692146
+Fourth-order central moment: 52.426899
+Background-corrected Fano factor: 2.0373262
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzione_3V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzioni_bin_3V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_3V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_3V.png
 Exponential decay time tau = 1.258132e-05 s
-Click dopo il filtro: 989259
-Click rimossi dal filtro: 55353
-Percentuale di click rimossi: 5.2989%
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_filtered_3V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_filtered_3V.png
+Clicks after filtering: 989259
+Clicks removed by filtering: 55353
+Percentage of clicks removed: 5.2989%
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_filtered_3V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_filtered_3V.png
 
 AFTERPULSE FILTERED DATA
 Mean = 0.79588197
-2nd central moment = 1.4108923
-3rd central moment = 4.3817068
-4th central moment = 27.908763
+Second central moment = 1.4108923
+Third central moment = 4.3817068
+Fourth central moment = 27.908763
 Fano factor = 1.7790391
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/filtro_afterpulse_3V.png
-Grafici salvati nella cartella: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/filtro_afterpulse_3V.png
+Plots saved in folder: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
 
 Theoretical moments:
 Poisson:
@@ -191,47 +191,47 @@ Chi-square = 271.8579
 p-value = 0.2236
 Byte mean = 127.5280
 Serial correlation = -0.001715
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/random_bytes_3V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/random_bytes_3V.png
 Zeros = 247276
 Ones = 247353
 Fraction of ones = 0.5001
 Monte Carlo Pi = 3.151009
 Bytes available for cloud: 61828
 Saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/byte_cloud_3V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/bit_balance_3V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/bit_balance_3V.png
 
 ============================================================
-ANALISI MISURA: 5V
+MEASUREMENT ANALYSIS: 5V
 File: TimeTags_5v_15.txt
 ============================================================
-Numero totale di click: 714194
-Durata del bin: 1.000e-05 s
-Numero di bin conteggiati: 814514
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/autocorrelazione_5V.png
-Media dei click per bin: 0.87683453
-Momento centrale ordine 2: 1.8675014
-Momento centrale ordine 3: 8.4796223
-Momento centrale ordine 4: 80.489299
-Fattore di Fano corretto per background: 2.1381745
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzione_5V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzioni_bin_5V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_5V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_5V.png
+Total number of clicks: 714194
+Bin duration: 1.000e-05 s
+Number of counted bins: 814514
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/autocorrelazione_5V.png
+Mean clicks per bin: 0.87683453
+Second-order central moment: 1.8675014
+Third-order central moment: 8.4796223
+Fourth-order central moment: 80.489299
+Background-corrected Fano factor: 2.1381745
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzione_5V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/distribuzioni_bin_5V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_5V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_5V.png
 Exponential decay time tau = 1.211185e-05 s
-Click dopo il filtro: 673784
-Click rimossi dal filtro: 40410
-Percentuale di click rimossi: 5.6581%
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_filtered_5V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_filtered_5V.png
+Clicks after filtering: 673784
+Clicks removed by filtering: 40410
+Percentage of clicks removed: 5.6581%
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/fano_filtered_5V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/intervalli_filtered_5V.png
 
 AFTERPULSE FILTERED DATA
 Mean = 0.82722212
-2nd central moment = 1.5039532
-3rd central moment = 5.091904
-4th central moment = 36.393131
+Second central moment = 1.5039532
+Third central moment = 5.091904
+Fourth central moment = 36.393131
 Fano factor = 1.8244901
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/filtro_afterpulse_5V.png
-Grafici salvati nella cartella: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/filtro_afterpulse_5V.png
+Plots saved in folder: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
 
 Theoretical moments:
 Poisson:
@@ -253,36 +253,36 @@ Chi-square = 292.0677
 p-value = 0.0551
 Byte mean = 127.1556
 Serial correlation = 0.001710
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/random_bytes_5V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/random_bytes_5V.png
 Zeros = 168368
 Ones = 168523
 Fraction of ones = 0.5002
 Monte Carlo Pi = 3.155885
 Bytes available for cloud: 42111
 Saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/byte_cloud_5V.png
-Grafico salvato: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/bit_balance_5V.png
+Plot saved: /home/francesco/PycharmProjects/ARECCHI WHEEL/img/bit_balance_5V.png
 
 ============================================================
-ANALISI BACKGROUND: laser_off
+BACKGROUND ANALYSIS: laser_off
 File: TimeTags_background_laser_off.txt
 ============================================================
 Removed background clicks: 2300
-Numero di click: 93033
-Durata stimata: 78.861295 s
-Rate di background: 1150.5391 click/s
-Click medi di background per bin: 0.011505391
+Number of clicks: 93033
+Estimated duration: 78.861295 s
+Background rate: 1150.5391 clicks/s
+Mean background clicks per bin: 0.011505391
 
 ============================================================
-ANALISI BACKGROUND: no_fiber
+BACKGROUND ANALYSIS: no_fiber
 File: TimeTags_background_no_fiber.txt
 ============================================================
 Removed background clicks: 142
-Numero di click: 9056
-Durata stimata: 65.351962 s
-Rate di background: 136.39988 click/s
-Click medi di background per bin: 0.0013639988
+Number of clicks: 9056
+Estimated duration: 65.351962 s
+Background rate: 136.39988 clicks/s
+Mean background clicks per bin: 0.0013639988
 
 ============================================================
-ANALISI COMPLETATA
-Immagini salvate in: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
+ANALYSIS COMPLETED
+Images saved in: /home/francesco/PycharmProjects/ARECCHI WHEEL/img
 ============================================================

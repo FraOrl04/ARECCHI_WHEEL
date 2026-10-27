@@ -1,4 +1,3 @@
-
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -7,7 +6,7 @@ import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 
 # ==================================================
-# CARTELLA DI SALVATAGGIO
+# OUTPUT FOLDER
 # ==================================================
 
 IMG_FOLDER = Path(__file__).parent / "img"
@@ -15,13 +14,13 @@ IMG_FOLDER.mkdir(parents=True, exist_ok=True)
 
 
 # ==================================================
-# FUNZIONE PER SALVARE I GRAFICI
+# FUNCTION TO SAVE PLOTS
 # ==================================================
 
 def save_plot(filename):
     """
-    Salva il grafico nella cartella img del progetto
-    e chiude la figura.
+    Saves the plot in the project's img folder
+    and closes the figure.
     """
     output_path = IMG_FOLDER / filename
 
@@ -29,22 +28,22 @@ def save_plot(filename):
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
     plt.close()
 
-    print(f"Grafico salvato: {output_path}")
+    print(f"Plot saved: {output_path}")
 
 
 # ==================================================
-# DISTRIBUZIONE DEL NUMERO DI CLICK
+# CLICK NUMBER DISTRIBUTION
 # ==================================================
 
 def plot_distributions(counts, filename="distribuzione.png"):
     """
-    Confronta la distribuzione sperimentale con le distribuzioni
-    teoriche di Poisson e Bose-Einstein.
+    Compares the experimental distribution with the theoretical
+    Poisson and Bose-Einstein distributions.
     """
     counts = np.asarray(counts, dtype=int)
 
     if counts.size == 0:
-        raise ValueError("Array dei conteggi vuoto.")
+        raise ValueError("The counts array is empty.")
 
     p_exp = mf.number_of_clicks(counts)
     p_poisson = mf.poisson_distribution(counts)
@@ -66,19 +65,18 @@ def plot_distributions(counts, filename="distribuzione.png"):
     save_plot(filename)
 
 
-
-
 # ==================================================
-# CONFRONTO p(n) PER DIVERSE BIN DURATION
+# COMPARISON OF p(n) FOR DIFFERENT BIN DURATIONS
 # ==================================================
+
 def plot_distributions_different_bins(
     time_tags_seconds,
     bin_durations,
     filename="different_bins.png"
 ):
     """
-    Confronta la distribuzione p(n) ottenuta
-    usando diverse durate del bin.
+    Compares the probability distributions p(n) obtained
+    using different bin durations.
     """
 
     plt.figure(figsize=(8, 5))
@@ -110,12 +108,8 @@ def plot_distributions_different_bins(
     save_plot(filename)
 
 
-
-
-
-
 # ==================================================
-# FATTORE DI FANO
+# FANO FACTOR
 # ==================================================
 
 def plot_fano_vs_bin_duration(
@@ -125,7 +119,7 @@ def plot_fano_vs_bin_duration(
     filename="fano.png"
 ):
     """
-    Fano factor in funzione della durata del bin.
+    Plots the Fano factor as a function of bin duration.
     """
     durations, fano_values = mf.fano_vs_bin_duration(
         time_tags_seconds,
@@ -154,8 +148,9 @@ def plot_fano_vs_bin_duration(
 
     return durations, fano_values
 
+
 # ==================================================
-# ISTOGRAMMA DEGLI INTERVALLI TRA CLICK
+# INTERARRIVAL TIME HISTOGRAM
 # ==================================================
 
 def plot_interarrival_histogram(
@@ -165,14 +160,14 @@ def plot_interarrival_histogram(
     filename="intervalli.png"
 ):
     """
-    Istogramma degli intervalli tra click consecutivi,
-    con asse y logaritmico e fit esponenziale.
+    Plots a histogram of the time intervals between consecutive clicks,
+    with a logarithmic y-axis and an exponential fit.
     """
     intervals = mf.interarrival_times(time_tags_seconds)
     intervals = intervals[intervals > 0]
 
     if intervals.size == 0:
-        raise ValueError("Non ci sono intervalli temporali da mostrare.")
+        raise ValueError("There are no time intervals to display.")
 
     plt.figure(figsize=(8, 5))
 
@@ -219,8 +214,9 @@ def plot_interarrival_histogram(
 
     return tau
 
+
 # ==================================================
-# CONFRONTO PRIMA E DOPO IL FILTRO AFTERPULSE
+# COMPARISON BEFORE AND AFTER AFTERPULSE FILTERING
 # ==================================================
 
 def plot_before_after_filter(
@@ -229,8 +225,8 @@ def plot_before_after_filter(
     filename="filtro_afterpulse.png"
 ):
     """
-    Confronta le distribuzioni sperimentali prima e dopo
-    il filtro degli afterpulse.
+    Compares the experimental distributions before and after
+    afterpulse filtering.
     """
     p_before = mf.number_of_clicks(counts_before)
     p_after = mf.number_of_clicks(counts_after)
@@ -260,12 +256,13 @@ def plot_before_after_filter(
 
     save_plot(filename)
 
+
 def plot_byte_histogram(
     byte_stream,
     filename="byte_histogram.png"
 ):
 
-    plt.figure(figsize=(10,5))
+    plt.figure(figsize=(10, 5))
 
     plt.hist(
         byte_stream,
@@ -294,6 +291,8 @@ def plot_byte_histogram(
     plt.grid(True)
 
     save_plot(filename)
+
+
 def plot_byte_cloud(
     byte_stream,
     filename="byte_cloud.png"
@@ -347,13 +346,14 @@ def plot_byte_cloud(
         f"Saved: {output_path}"
     )
 
+
 def plot_bit_balance(
     zeros,
     ones,
     filename="bit_balance.png"
 ):
 
-    plt.figure(figsize=(6,4))
+    plt.figure(figsize=(6, 4))
 
     plt.bar(
         ["0", "1"],
@@ -372,7 +372,6 @@ def plot_bit_balance(
     save_plot(filename)
 
 
-
 def plot_count_autocorrelation(counts, max_lag=20, filename="autocorrelation.png"):
     ac = mf.count_autocorrelation(counts, max_lag=max_lag)
     lags = np.arange(1, max_lag + 1)
@@ -388,3 +387,48 @@ def plot_count_autocorrelation(counts, max_lag=20, filename="autocorrelation.png
 
     save_plot(filename)
 
+
+def plot_byte_comb_check(byte_stream, filename="byte_comb_check.png"):
+    """
+    Looks for the byte comb pattern, as shown in slides 27–29:
+    a 256-bin histogram with mean, standard deviation, and sqrt(mean) lines.
+    """
+    plt.figure(figsize=(10, 5))
+    hcomb, xedges = np.histogram(byte_stream, bins=256, range=(0, 256))
+    bin_centers = (xedges[:-1] + xedges[1:]) / 2
+
+    plt.bar(bin_centers, hcomb, width=1.0, alpha=0.7, label="Byte counts")
+
+    hmean = np.mean(hcomb)
+    stdhcomb = np.std(hcomb)
+
+    plt.axhline(hmean, color="red", linestyle="-", label=f"Mean = {hmean:.1f}")
+    plt.axhline(hmean - stdhcomb, color="red", linestyle="--", label="± Std Dev")
+    plt.axhline(hmean + stdhcomb, color="red", linestyle="--")
+    plt.axhline(hmean - np.sqrt(hmean), color="black", linestyle=":", label="± sqrt(Mean)")
+    plt.axhline(hmean + np.sqrt(hmean), color="black", linestyle=":")
+
+    plt.xlabel("Byte value (0-255)")
+    plt.ylabel("Occurrences")
+    plt.title("After the Extraction: Check for the Comb")
+    plt.legend(loc="upper right", fontsize=8)
+    plt.grid(True, alpha=0.3)
+
+    save_plot(filename)
+
+
+def plot_comb_distribution(byte_stream, filename="comb_distribution.png"):
+    """
+    Plots a secondary histogram of the distribution of byte frequencies
+    (slides 27 and 29).
+    """
+    hcomb, _ = np.histogram(byte_stream, bins=256, range=(0, 256))
+
+    plt.figure(figsize=(8, 5))
+    plt.hist(hcomb, bins=20, alpha=0.8, edgecolor="black")
+    plt.xlabel("Number of byte appearances")
+    plt.ylabel("Frequency")
+    plt.title("Comb Distribution around the Average Number of Byte Appearances")
+    plt.grid(True, alpha=0.3)
+
+    save_plot(filename)

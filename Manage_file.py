@@ -3,24 +3,25 @@ import numpy as np
 from scipy.special import factorial
 from scipy.optimize import curve_fit
 from scipy.stats import chisquare
+
 def reader(path):
     """
-    This function gets a txt file, reads it, saves the first column "time tags",
-     and returns them as an array.
+    This function reads a .txt file, saves the first column ("time tags"),
+    and returns it as an array.
     :param path: .txt file path
     :return: array of time tags
     """
-    #read it
+    # Read the file
     df = pd.read_csv(path, comment='#', sep=';', header=None, skipinitialspace=True)
 
-    # put the result in an array
+    # Store the result in an array
     time_tags = df[0].to_numpy()
     return time_tags
 
 
 def converter(time_tags):
     """
-    this function converts time tags in a real second
+    This function converts time tags into seconds.
     :param time_tags: array of time tags
     :return: array of time tags in seconds
     """
@@ -29,10 +30,9 @@ def converter(time_tags):
     return time_tags_seconds
 
 
-
-def count_interval(time_tags_second,delta_interval = 1e-5):
-    """"
-    this function counts the numbers of clicks in different intervals of 10microseconds
+def count_interval(time_tags_second, delta_interval=1e-5):
+    """
+    This function counts the number of clicks in intervals of 10 microseconds.
     :param time_tags_second: array of time tags
     :return: number of clicks
     """
@@ -53,9 +53,10 @@ def count_interval(time_tags_second,delta_interval = 1e-5):
 def number_of_clicks(count):
 
     """
-    this function calculates the p(n) distribtions of clicks
-    if i have for example 1000 invervals and in 100 of them are 2 i found 2 clicks the result is 10%
-    formual is p(n) = (intervalls whit n clicks)/number of total intervals
+    This function calculates the probability distribution p(n) of clicks.
+    For example, if there are 1000 intervals and 100 of them contain 2 clicks,
+    then the probability of observing 2 clicks is 10%.
+    The formula is p(n) = (number of intervals containing n clicks) / total number of intervals.
     """
 
     count_intervals = np.asanyarray(count)
@@ -117,28 +118,30 @@ def avg_and_central_moments(counts):
     )
 
 
-
 def background_rate(background_time_tags, duration=None):
     """
-    Calcola il rate di background in click/s.
+    Calculates the background rate in clicks/s.
     """
     times = np.sort(np.asarray(background_time_tags, dtype=float))
 
     if duration is None:
         if times.size < 2:
-            raise ValueError("Servono almeno due time tag.")
+            raise ValueError("At least two time tags are required.")
         duration = times[-1] - times[0]
 
     if duration <= 0:
-        raise ValueError("La durata deve essere positiva.")
+        raise ValueError("Duration must be positive.")
 
     return len(times) / duration
+
+
 def background_mean(rate, delta_interval=1e-5):
     return rate * delta_interval
 
+
 def subtract_background_mean(counts, background_mean):
     """
-    Sottrae il numero medio di click di background da ogni bin.
+    Subtracts the mean number of background clicks from each bin.
     """
     counts = np.asarray(counts, dtype=float)
     return counts - background_mean
@@ -146,14 +149,14 @@ def subtract_background_mean(counts, background_mean):
 
 def fano_factor(counts, background_mean=None):
     """
-    Calcola il Fano factor.
-    Se background_mean è fornito, sottrae anche il suo contributo
-    alla media e alla varianza.
+    Calculates the Fano factor.
+    If background_mean is provided, its contribution is also subtracted
+    from the mean and variance.
     """
     counts = np.asarray(counts, dtype=float)
 
     if counts.size == 0:
-        raise ValueError("L'array dei conteggi è vuoto.")
+        raise ValueError("The counts array is empty.")
 
     mean = np.mean(counts)
     variance = np.var(counts)
@@ -166,8 +169,6 @@ def fano_factor(counts, background_mean=None):
         return np.nan
 
     return variance / mean
-
-
 
 
 def fano_vs_bin_duration(
@@ -187,7 +188,6 @@ def fano_vs_bin_duration(
     return durations, np.asarray(fano_values)
 
 
-
 def interarrival_times(time_tags_seconds):
 
     times = np.sort(np.asarray(time_tags_seconds, dtype=float))
@@ -197,8 +197,8 @@ def interarrival_times(time_tags_seconds):
 
 def remove_afterpulses(time_tags_seconds, threshold=200e-9):
     """
-    Rimuove i click separati da meno di threshold
-    dall'ultimo click mantenuto.
+    Removes clicks separated by less than threshold
+    from the last retained click.
     """
     times = np.sort(np.asarray(time_tags_seconds, dtype=float))
 
@@ -212,7 +212,6 @@ def remove_afterpulses(time_tags_seconds, threshold=200e-9):
             filtered.append(t)
 
     return np.asarray(filtered)
-
 
 
 def poisson_moments(mu):
@@ -253,8 +252,8 @@ def skewness_and_kurtosis(counts):
 
 def exponential_tau(time_tags_seconds, threshold=200e-9):
     """
-    Stima tau della distribuzione esponenziale degli intervalli
-    tra click, escludendo gli afterpulse.
+    Estimates tau for the exponential distribution of inter-click intervals,
+    excluding afterpulses.
     """
     intervals = interarrival_times(time_tags_seconds)
     intervals = intervals[intervals > threshold]
@@ -263,6 +262,7 @@ def exponential_tau(time_tags_seconds, threshold=200e-9):
         raise ValueError("Not enough intervals for exponential fit.")
 
     return np.mean(intervals)
+
 
 def generate_random_bits(time_tags_seconds,
                          threshold=200e-9):
@@ -324,6 +324,8 @@ def bits_to_bytes(bits):
         bytes_array,
         dtype=np.uint8
     )
+
+
 def chi_square_test(byte_stream):
 
     hist, _ = np.histogram(
@@ -369,7 +371,6 @@ def bit_balance(bits):
     ones = np.sum(bits == 1)
 
     return zeros, ones
-
 
 
 def monte_carlo_pi(byte_stream):
@@ -449,4 +450,26 @@ def count_autocorrelation(counts, max_lag=20):
     return np.asarray(ac)
 
 
+def estimate_dead_time(time_tags_seconds):
+    """Estimates the dead time by finding the first valid non-zero interval."""
+    intervals = interarrival_times(time_tags_seconds)
+    valid_intervals = intervals[intervals > 0]
+    if valid_intervals.size == 0:
+        return 0.0
+    # The dead time corresponds to the minimum observed interval before afterpulses
+    return np.min(valid_intervals)
 
+
+def fit_coherence_time(counts, max_lag=20):
+    """Extracts an approximate characteristic time from the autocorrelation."""
+    ac = count_autocorrelation(counts, max_lag=max_lag)
+    lags = np.arange(1, max_lag + 1)
+    # Simple exponential fit: ac(lag) = exp(-lag / tau_bins)
+    valid = ac > 0
+    if np.sum(valid) < 3:
+        return np.nan
+    try:
+        popt, _ = curve_fit(lambda x, tau: np.exp(-x / tau), lags[valid], ac[valid], p0=[5.0])
+        return popt[0]
+    except Exception:
+        return np.nan
